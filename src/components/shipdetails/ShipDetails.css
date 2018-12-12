@@ -1,0 +1,12 @@
+#details-list {
+    text-align: left;
+}
+
+#details-list li {
+    color: lightskyblue;
+    font-size: 14px;
+}
+
+span {
+    color: white;
+}
