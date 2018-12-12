@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Errorboundary from '../components/errorboundary/ErrorBoundary';
+import FromWhereTo from "../components/FromWhereTo";
 import ShipDetails from '../components/shipdetails/ShipDetails';
 import SetTravelCard from '../components/SetTravelCard';
 import Particles from 'react-particles-js';
@@ -60,8 +61,6 @@ class App extends Component {
 			const jsonedResponse = await resp.json();
 			const fetchedPilot = await jsonedResponse.name;
 			return fetchedPilot;
-		} else {
-			return await ("Free to drive");
 		}
 	}
 
@@ -97,6 +96,16 @@ class App extends Component {
 	}
 
 	render() {
+
+		const {
+			ships,
+			chosenShip,
+			currentShipPilots,
+			planets,
+			targetPlanet,
+			travelTime
+		} = this.state;
+
 		return (
 			<Errorboundary>
 				<div className="tc">
@@ -107,49 +116,47 @@ class App extends Component {
 								number: {
 									value: 130,
 									density: { enable: true }
+								},
+								line_linked: {
+									opacity: 1,
+									width: 1.3
 								}
 							}
 						}}
 					/>
 					<h1 className='header w-70'>Order your StarShip Ride now!</h1>
-					<div className='flex justify-center flex-wrap-ns'>
-						<div className='container container-small-size'>
-							<p><span style={{ color: 'lightskyblue' }} >Your current location:</span> EARTH</p>
-						</div>
-						<div className='container container-small-size'>
-							<p>
-								<span style={{ color: 'lightskyblue' }} >Destination planet: </span>{this.state.targetPlanet.name}.
-								<span style={{ color: 'lightskyblue' }}> Climate:</span> {this.state.targetPlanet.climate}
-							</p>
-						</div>
-					</div>
+					<FromWhereTo data={targetPlanet}>
+					</FromWhereTo>
 					<div className='flex justify-around flex-wrap-ns'>
 						<SetTravelCard
-							data={this.state.planets}
+							data={planets}
 							cardTitle='Choose a Destination'
 							clickHandler={this.choosePlanet.bind(this)}
 						/>
 						<SetTravelCard
-							data={this.state.ships}
+							data={ships}
 							cardTitle='Choose a Vehicle'
 							clickHandler={this.chooseShip.bind(this)}
 						/>
 						<ShipDetails
-							data={this.state.chosenShip}
-							pilots={this.state.currentShipPilots}
+							data={chosenShip}
+							pilots={currentShipPilots}
 						/>
 					</div>
 					<div className='container container-small-size'>
-						<p>The travel is going to take {this.state.travelTime[0]} days and {this.state.travelTime[1]} hours</p>
+						<p>The travel is going to take {travelTime[0]} days and {travelTime[1]} hours</p>
 					</div>
-					<div id='button' className="dib" onClick={function() {alert('Your starship has set off... in a galaxy far, far away...')}}>ORDER</div>
+					<div
+						id='button'
+						className="dib"
+						onClick={function () { alert('Your starship has set off... in a galaxy far, far away...') }}
+					>ORDER
+					</div>
 				</div>
 			</Errorboundary>
 		)
 	}
 }
-
-
 
 export default App;
 
